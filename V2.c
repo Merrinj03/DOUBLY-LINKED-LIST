@@ -9,8 +9,9 @@ void main()
 		struct node *next;};
 	int ch,entry,c;
 	struct node *head=NULL,*pos=NULL,*tail=NULL;
+	printf("\nMENU\n1.APPEND\n2.DISPLAY(FORWARD)\n3.DISPLAY(REVERSE)\n4.DELETE HEAD\n5.DELETE TAIL\n6.DELETE ELEMENT B/W HEAD&TAIL\n7.EXIT\n");
 	while(1){
-		printf("\nMENU\n1.APPEND\n2.DISPLAY(FORWARD)\n3.DISPLAY(REVERSE)\n4.DELETE HEAD\n5.DELETE TAIL\n6.DELETE ELEMENT B/W HEAD&TAIL\n7.EXIT\n\nEnter choice: ");
+		printf("\nEnter choice: ");
 		scanf("%d",&ch);
 		switch(ch){
 		case 1:{
@@ -68,14 +69,14 @@ void main()
 				head=NULL;
 				tail=NULL;
 				free(del);
-				printf("\ndeleted\n");}
+				printf("\nDELETED\n");}
 			else{
 				struct node *del=head;
 				head=head->next;
 				del->next=NULL;
 				head->prev=NULL;
 				free(del);
-				printf("\ndeleted\n");}
+				printf("\nDELETED\n");}
 				break;}
 		case 5:{
 			struct node *del=tail;
@@ -108,10 +109,16 @@ void main()
 			while(pos!=NULL){
 				pos=pos->next;
 				c++;}
+			if(c<3){
+				printf("\nNo element between head & tail\n");
+				break;}
 			if(c>3){
 				printf("\nEnter position of data: ");
 				scanf("%d",&entry);
-				for(int i=0;i<entry-1;i++)
+				if(entry>=c){
+					printf("out of range");
+					break;}
+				for(int i=0;i<entry-1;i++){
 					temp=temp->next;
 					struct node *del=temp->next;
 					temp->next=temp->next->next;
@@ -119,26 +126,19 @@ void main()
 					del->prev=NULL;
 					del->next=NULL;
 					free(del);
-					printf("\nDELETED\n");
+					printf("\nDELETED\n");}
 					break;}
 			else if(c=3){
-				for(int i=0;i<entry-1;i++)
-					temp=temp->next;
-					struct node *del=temp->next;
-					temp->next=temp->next->next;
-					temp->next->prev=temp;
-					del->prev=NULL;
-					del->next=NULL;
-					free(del);
-					printf("\nDELETED\n");
-					break;}
-				
-			else{
-				printf("No elements between head and tail\n");
+				struct node *del=temp->next;
+				temp->next=del->next;
+				del->next->prev=temp;
+				del->next=NULL;
+				del->prev=NULL;
+				free(del);
+				printf("\nDELETED!\n");
 				break;}}
-		
 		case 7:{
-			printf("\nGOODBYE\n");
+			printf("\nEXITED\n");
 			exit(0);}
 		default:
 			printf("Error,wrong choice\n");
